@@ -1,0 +1,9 @@
+@charset "UTF-8";
+.fawjc-year {cursor:pointer;}
+.fawjc-sel:before {content:"▶";}
+.fawjc-sel.selected:before {content:"▼";}
+.fawjc-month-wrap {display:none;margin-top:7px;}
+.fawjc-month {padding-left:15px;cursor:pointer;}
+.fawjc-post-wrap {display:none;margin-top:7px;}
+ul.fawjc-post-wrap>li#fawjc_post_current>a {font-weight:bold;}
+.fawjc-post {padding-left:15px;}
