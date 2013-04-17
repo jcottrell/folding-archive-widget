@@ -11,11 +11,11 @@
 	function show_lis() {
 		/* the first child [0] will be a span, used to hold the arrows, so we start with 1 */
 		var lis = this.children,
-			lisi = 1, lislen = lis.length,
+			lisi = 1, lis_len = lis.length,
 			lis_dis = (lis[1]) ? (lis[1].style.display === 'block' ? 'none' : 'block') : '',
 			sel_stripped = this.children[0].className.replace(/ selected/gi, '');
 		this.children[0].className = (lis_dis === 'block') ? sel_stripped + ' selected' : sel_stripped;
-		for (lisi = 1; lisi < lislen; lisi += 1) {
+		for (; lisi < lis_len; lisi += 1) {
 			lis[lisi].style.display = lis_dis;
 		}
 		return this;
@@ -24,15 +24,25 @@
 		/* on single pages, just show the current month */
 		current.style.display = current.style.display === 'block' ? 'none' : 'block';
 		/*
-		 * of the current post (li) get the parent wrapper (ul) and then parent month (li), show children (posts);
-		 * get parent wrapper (ul) and parent year (li), show children (months)
+		 * inner show_lis:
+		 *	of the current post (li) get the parent wrapper (ul) and then parent month (li)
+		 *	show_lis will then show children (posts) of the same month the current post was published in
+		 * outer show_lis:
+		 *	from the previous show_lis it receives the month of the current post
+		 *	from there get parent wrapper (ul) and parent year (li)
+		 *	show_lis will then show children (months) of the same year the current post was published in
 		 */
 		show_lis.apply(show_lis.apply(current.parentElement.parentElement).parentElement.parentElement);
 	} else {
 		/* show the most recent month of posts */
 		/*
-		 * of the whole wrapper (ul.fawjc-year-wrap) get the first year, show children (months);
-		 * skip the arrow span (li>span) and get the month wrapper (li>ul), show children (posts)
+		 * inner show_lis:
+		 *	of the whole wrapper (ul.fawjc-year-wrap) get the first/recent year
+		 *	show_lis will then show children (months)
+		 * outer show_lis:
+		 *	from the previous show_lis it receives the most recent year
+		 *	skip the arrow span (li>span) and get the month wrapper (li>ul)
+		 *	show_lis will then show children (posts)
 		 */
 		show_lis.apply(show_lis.apply(main_wrap.children[0]).children[1].children[0]);
 	}
