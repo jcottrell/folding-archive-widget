@@ -6,21 +6,25 @@ Description: Display archive by year with month folded under it and all posts fo
 Version: 0.2.2
 Author: Joshua Cottrell
 Author URI: http://github.com/jcottrell
+License: GPLv2 or later
 */
 
 /*
- * Copyright 2012 Joshua Cottrell (joshua dot e dot cottrell at gmail)
- *
- * License info
- */
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
 
-/*
- * Change history
- * 0.2.2	Documentation clarified, minor changes to make variables more consistent
- * 0.2.1	Bug fixed, js el.className('fawjc-sel') to el.className.indexOf('fawjc-sel')
- * 0.2.0	Added javascript to handle clicking on arrows
- * 0.1.0	Initial release (20130213)
- */
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
+
 
 class Folding_Archive_Widget extends WP_Widget {
 	public function __construct() {
@@ -75,6 +79,9 @@ class Folding_Archive_Widget extends WP_Widget {
 			if (! isset( $list_array[$post_year][$post_month] ) ) {
 				$list_array[$post_year][$post_month] = array();
 			}
+			if (! isset( $year_count[$post_year] ) ) {
+				$year_count[$post_year] = 0;
+			}
 			$year_count[$post_year] += 1;
 			$list_array[$post_year][$post_month][] = array( 'ID' => $post->ID, 'title' => $post->post_title, 'date' => substr( $post->post_date, 0, 8 ) );
 		}
@@ -86,15 +93,15 @@ class Folding_Archive_Widget extends WP_Widget {
 
 		echo '<ul class="fawjc-year-wrap">';
 		foreach ( $list_array as $year => $year_array ) {
-			echo '<li class="fawjc-year fawjc-y-' . $year . '"><span class="fawjc-sel fawjc-sel-y">&nbsp;</span>' . $year . ' (' . $year_count[$year] . ')<ul class="fawjc-month-wrap">' . "\n";
+			echo '<li class="fawjc-year fawjc-y-' . $year . '"><span class="fawjc-sel fawjc-sel-y">&nbsp;' . $year . '&nbsp;(' . $year_count[$year] . ')</span><ul class="fawjc-month-wrap">' . "\n";
 			foreach ( $year_array as $month => $month_array ) {
-				echo '<li class="fawjc-month fawjc-m-' . $month . '"><span class="fawjc-sel fawjc-sel-m">&nbsp;</span>' . date( 'F', strtotime( $year . $month . '01' ) ) . " (" . count( $month_array ) . ')<ul class="fawjc-post-wrap">' . "\n";
+				echo '<li class="fawjc-month fawjc-m-' . $month . '"><span class="fawjc-sel fawjc-sel-m">&nbsp;' . date( 'F', strtotime( $year . $month . '01' ) ) . "&nbsp;(" . count( $month_array ) . ')</span><ul class="fawjc-post-wrap">' . "\n";
 				foreach ( $month_array as $post ) {
-					$post_id = '';
+					$current_post = '';
 					if ( is_single() && ( (int) $post['ID'] === $save_post->ID ) ) {
-						$post_id = 'fawjc_post_current';
+						$current_post = 'fawjc-post-current';
 					}
-					echo '<li class="fawjc-post"' . ( strlen( $post_id ) > 0 ? ' id="' . $post_id . '"' : '' ) . '><a href="' . apply_filters( 'the_permalink', get_permalink( $post['ID'] ) ) . '">' . $post['title'] . "</a></li>\n";
+					echo '<li class="fawjc-post' . ( strlen( $current_post ) > 0 ? ' ' . $current_post : '' ) . '"><a href="' . apply_filters( 'the_permalink', get_permalink( $post['ID'] ) ) . '">' . $post['title'] . "</a></li>\n";
 				}
 				echo "</ul></li>\n";
 			}
@@ -111,7 +118,7 @@ class Folding_Archive_Widget extends WP_Widget {
 	}
 
 	function add_script() {
-		wp_enqueue_script( 'fawjc-script', plugins_url( 'folding-archive-widget-v0.2.1.js', __FILE__ ), array(), '', true );
+		wp_enqueue_script( 'fawjc-script', plugins_url( 'folding-archive-widget-v0.2.2.js', __FILE__ ), array(), '', true );
 	}
 }
 add_action( 'widgets_init', create_function( '', 'register_widget( "Folding_Archive_Widget" );' ) );
