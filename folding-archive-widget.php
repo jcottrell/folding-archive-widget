@@ -3,7 +3,7 @@
 Plugin Name: Folding Archive Widget
 Plugin URI: http://github.com/jcottrell/folding-archive-widget
 Description: Display archive by year with month folded under it and all posts for that month folded under the month.
-Version: 0.2.2
+Version: 0.3.0
 Author: Joshua Cottrell
 Author URI: http://github.com/jcottrell
 License: GPLv2 or later
@@ -118,7 +118,7 @@ class Folding_Archive_Widget extends WP_Widget {
 	}
 
 	function add_script() {
-		wp_enqueue_script( 'fawjc-script', plugins_url( 'folding-archive-widget-v0.2.2.js', __FILE__ ), array(), '', true );
+		wp_enqueue_script( 'fawjc-script', plugins_url( 'folding-archive-widget-v0.3.0.min.js', __FILE__ ), array(), '', true );
 	}
 }
 add_action( 'widgets_init', create_function( '', 'register_widget( "Folding_Archive_Widget" );' ) );

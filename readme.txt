@@ -3,7 +3,7 @@ Contributors: Joshua Cottrell
 Tags: archive, folding
 Requires at least 3.0
 Tested up to: 3.5.2
-Stable tag: 0.2.2
+Stable tag: 0.3.0
 License: GPLv2 or Later
 
 A Wordpress widget to assist navigating the archives. Imitates Google Blogspot functionality except for ajax retrieval of post titles. Instead they are pre-populated.
@@ -14,6 +14,9 @@ A Wordpress widget to assist navigating the archives. Imitates Google Blogspot f
 3. Select Folding Archive Widget from Widgets and drop in desired sidebar.
 
 == Change history ==
+= 0.3.0 =
+* Added ability to have multiple archive widgets function on the same page
+
 = 0.2.2 =
 * Documentation clarified, minor changes to make variables more consistent
 
